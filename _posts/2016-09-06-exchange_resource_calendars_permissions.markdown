@@ -20,4 +20,5 @@ foreach($resource in $resources){
 {% endhighlight %}
 
 [Spiceworks: Setting Access Permissions](https://community.spiceworks.com/topic/329032-setting-access-permissions-on-room-mailbox-calendar-folders)
+
 [Office 365 Manage Room Mailboxes with PowerShell](http://o365info.com/room-mailbox-powershell-commands/)
