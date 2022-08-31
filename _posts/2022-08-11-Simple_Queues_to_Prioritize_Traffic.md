@@ -12,7 +12,7 @@ tags:
 After [eviscerating buffer bloat](https://joeywas.github.io/bufferbloat/network/2022/07/28/Buffer_Bloat_Begone.html) with a single simple queue using [CAKE](https://www.bufferbloat.net/projects/codel/wiki/CakeTechnical/), the next goal is to treat higher priority traffic with, well, higher priority than other "lower priority" traffic. For our purposes, higher priority traffic is Microsoft Teams, T-Mobile WiFi calling, and SSH. Lower priority traffic includes general web browsing and video streaming on Netflix, Hulu, etc.
 
 ## Equipment
-Internet provided via a Wireless ISP that is approximately 13Mbps/4Mbps. The WISP modem is connected to a Mikrotik router RB750Gr3 aka HEx, running RouterOS 7.3.1. Internal DNS and DHCP are provided by a pihole connected directly to the router.
+Internet provided via a Wireless ISP that is approximately 20Mbps/5Mbps. The WISP modem is connected to a Mikrotik router RB750Gr3 aka HEx, running RouterOS 7.3.1. Internal DNS and DHCP are provided by a pihole connected directly to the router.
 
 The wireless home network is a mesh Wifi system made up of a Netgear Orbi RBR50 in AP Mode and two RBS50 satellites, all running Voxel firmware. 
 
@@ -83,11 +83,11 @@ add cake-flowmode=dual-srchost cake-memlimit=48.8KiB cake-nat=yes kind=cake name
 
 ## Tiered Simple Queue
 
-The top level queue `01-WAN-Bandwidth` is created first and targets the ethernet interface that is connected to the ISP modem. This top level queue is limited at 13M download and 4M upload, which is what we get from the ISP.
+The top level queue `01-WAN-Bandwidth` is created first and targets the ethernet interface that is connected to the ISP modem. This top level queue is limited at 20M download and 5M upload, which is what we get from the ISP.
 
 ```
 /queue simple
-add max-limit=13M/4M name=01-WAN-Bandwidth packet-marks="mark-WAN,mark-WAN-SSH,mark-WAN-Tmobile,mark-WAN-Teams,mark-LAN,mark-LAN-SSH,mark-LAN-Tmobile,mark-LAN-Teams" queue=cake-dual-dst/cake-dual-src target=ether1
+add max-limit=20M/5M name=01-WAN-Bandwidth packet-marks="mark-WAN,mark-WAN-SSH,mark-WAN-Tmobile,mark-WAN-Teams,mark-LAN,mark-LAN-SSH,mark-LAN-Tmobile,mark-LAN-Teams" queue=cake-dual-dst/cake-dual-src target=ether1
 ```
 
 The next level queues are prefixed with `02` and have the `01-WAN-Bandwidth` queue as a parent.
@@ -98,12 +98,12 @@ We guarrantee the following bandwidth:
 
 The T-Mobile wifi calling queue has the highest priority, followed by the SSH and TEAMS queues. 
 
-The `02-Catchall` queue is for everything else
+The `02-Catchall` queue is for all other network traffic.
 
 ```
 /queue simple
 add limit-at=512k/512k max-limit=1M/1M name=02-SSH packet-marks=mark-WAN-SSH,mark-LAN-SSH parent=01-WAN-Bandwidth priority=7/7 queue=cake-dual-dst/cake-dual-src target=""
 add limit-at=512k/512k max-limit=4M/3500k name=02-Teams packet-marks=mark-WAN-Teams,mark-LAN-Teams parent=01-WAN-Bandwidth priority=7/7 queue=cake-dual-dst/cake-dual-src target=""
 add limit-at=128k/128k max-limit=512k/512k name=02-Tmobile packet-marks=mark-LAN-Tmobile,mark-WAN-Tmobile parent=01-WAN-Bandwidth priority=6/6 queue=cake-dual-dst/cake-dual-src target=""
-add limit-at=6M/1M max-limit=13M/3M name=02-Catchall parent=01-WAN-Bandwidth queue=cake-dual-dst/cake-dual-src target=""
+add limit-at=15M/3M max-limit=13M/3M name=02-Catchall parent=01-WAN-Bandwidth queue=cake-dual-dst/cake-dual-src target=""
 ```
