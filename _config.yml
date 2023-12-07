@@ -16,7 +16,7 @@
 title: Joseph Cunningham
 email: joeywas@gmail.com
 description: > # this means to ignore newlines until "baseurl:"
-Welcome to Joseph's DevOps Den! Embark on a journey into the dynamic world of DevOps, PowerShell, System Integration, and Automation with me. As a passionate advocate for seamless and efficient IT operations, I share insights, tutorials, and real-world experiences to empower fellow tech enthusiasts and professionals.
+  Welcome to Joseph's DevOps Den! Embark on a journey into the dynamic world of DevOps, PowerShell, System Integration, and Automation with me. As a passionate advocate for seamless and efficient IT operations, I share insights, tutorials, and real-world experiences to empower fellow tech enthusiasts and professionals.
 
 baseurl: "" # the subpath of your site, e.g. /blog
 #url: "http://joeywas.github.io" # the base hostname & protocol for your site
