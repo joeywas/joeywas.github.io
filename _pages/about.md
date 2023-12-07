@@ -1,7 +1,7 @@
 ---
 layout: page
-title: About
+title: Automation. Infrastructure. DevOps.
 permalink: /about/
 ---
 
-Welcome to my blog! Mostly a place to put reminders for things I work on, so when I am able to recall how I did something. A diary of howtos, as it were. :)
+I am a Team Lead for an Enterprise Operations group responsible on-prem server and cloud services infrastructure. I find the most satisfaction when working on automating processes, integrating systems, and developing platform tooling.
