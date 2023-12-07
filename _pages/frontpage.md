@@ -1,8 +1,8 @@
 ---
 permalink: /
 layout: home
-title: Welcome
-list_title: My blog posts
+title: Welcome to Joseph's DevOps Den!
+list_title: Posts
 ---
 
 [gh-site]: https://pages.github.com/
